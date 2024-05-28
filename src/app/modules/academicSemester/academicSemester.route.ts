@@ -1,9 +1,21 @@
 import { Router } from "express";
 import { AcademicSemesterController } from "./academicSemester.Controller";
+import validationRequset from "../../middlewares/validedRequset";
+import { AcademicSemesterValidations } from "./academicSemester.validation";
 
 const router = Router();
 router.post(
   "/create-academic-semester",
+  validationRequset(
+    AcademicSemesterValidations.createAcademicSemesterValidationSchema
+  ),
   AcademicSemesterController.createAcademicSemester
 );
-const AcademicSemesterRoutes = router;
+
+router.get("/", AcademicSemesterController.getAllAndSignleAcademicSemester);
+router.get(
+  "/:semesterId",
+  AcademicSemesterController.getAllAndSignleAcademicSemester
+);
+router.patch("/:semesterId", AcademicSemesterController.updateAcademicSemester);
+export const AcademicSemesterRoutes = router;
