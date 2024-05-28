@@ -68,11 +68,11 @@ const studentSchema = new Schema<TStudent, StudentModel>(
       unique: true,
       ref: "User",
     },
-    password: {
-      type: String,
-      required: [true, "Password is required"],
-      unique: true,
-    },
+    // password: {
+    //   type: String,
+    //   required: [true, "Password is required"],
+    //   unique: true,
+    // },
     name: {
       type: userNameSchema,
       required: [true, "Student name is required"],
@@ -149,23 +149,6 @@ studentSchema.virtual("fullName").get(function () {
   return `${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`;
 });
 // Pre middleware functions
-studentSchema.pre("save", async function (next) {
-  console.log(this, "post hook data");
-  // do stuff
-  const user = this;
-  // hass password
-  user.password = await bcrypt.hash(
-    user.password,
-    Number(config.bcrypt_salt_round)
-    // Store hash in your password DB.
-  );
-  next();
-});
-studentSchema.post("save", function (doc, next) {
-  console.log(this, "post  has been initialized from the db");
-  doc.password = "";
-  next();
-});
 
 studentSchema.pre("find", function (next) {
   this.find({ isDeleted: { $ne: true } });
