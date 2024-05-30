@@ -37,7 +37,7 @@ const createStudentValidationSchema = z.object({
       gender: z.enum(["male", "female", "others"], {
         errorMap: () => ({ message: "'{VALUE}' is not a valid gender" }),
       }),
-      dateOfBirth: z.date().optional(),
+      dateOfBirth: z.string().optional(),
       email: z.string().email("Invalid email address").optional(),
       contactNo: z.string().min(1, "Contact number is required"),
       emergencyContactNo: z
@@ -54,6 +54,7 @@ const createStudentValidationSchema = z.object({
       guardian: guardianValisatonSchema,
       localGuardian: localGuardianValidationSchema,
       profileImg: z.string().optional(),
+      admissionSemester: z.string(),
       // iaActive: z.enum(["active", "blocked"]).default("active"),
       // isDeleted: z.boolean(),
     }),

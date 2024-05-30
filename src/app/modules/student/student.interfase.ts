@@ -51,6 +51,7 @@ export type TStudent = {
   localGuardian: TLocalGuardian;
   profileImg?: string;
   // iaActive: "active" | "blocked";
+  admissionSemester: Types.ObjectId;
   isDeleted: boolean;
 };
 

@@ -131,11 +131,16 @@ const studentSchema = new Schema<TStudent, StudentModel>(
     },
     profileImg: { type: String },
     // iaActive: {
+
     //   type: String,
     //   enum: ["active", "blocked"],
     //   default: "active",
     //   _id: false,
     // },
+    admissionSemester: {
+      type: Schema.Types.ObjectId,
+      ref: "AcademicSemester",
+    },
     isDeleted: { type: Boolean, default: false },
   },
   {
