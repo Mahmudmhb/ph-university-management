@@ -4,7 +4,6 @@ import {
   AcademicSemesterName,
   Months,
 } from "./academicSemester.constent";
-import { TAcademicSemesterName, TMonths } from "./academicSemester.interfase";
 
 const createAcademicSemesterValidationSchema = z.object({
   body: z.object({
