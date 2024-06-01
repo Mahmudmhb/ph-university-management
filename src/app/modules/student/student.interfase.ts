@@ -53,6 +53,7 @@ export type TStudent = {
   // iaActive: "active" | "blocked";
   admissionSemester: Types.ObjectId;
   isDeleted: boolean;
+  academicDepartment: Types.ObjectId;
 };
 
 export interface StudentModel extends Model<TStudent> {

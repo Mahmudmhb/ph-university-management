@@ -6,12 +6,13 @@ import { User } from "./user.model";
 import { Student } from "../student/student.model";
 import { AcademicSemester } from "../academicSemester/academicSemester.model";
 import { generateStudentId } from "./user.utlits";
+import { TAcademicSemester } from "../academicSemester/academicSemester.interfase";
+import mongoose from "mongoose";
 
 const createStudentIntoDB = async (password: string, payload: TStudent) => {
   // if (await Student.isUserExists(StudentData.id)) {
   //   throw new Error("user already exists ");
   // }
-
   //   create a user object
   const userData: Partial<TUser> = {};
   // if if password not given
@@ -30,19 +31,40 @@ const createStudentIntoDB = async (password: string, payload: TStudent) => {
   const admissionSemester = await AcademicSemester.findById(
     payload.admissionSemester
   );
-  userData.id = await generateStudentId(admissionSemester);
-  //   create a user
+  const session = await mongoose.startSession();
 
-  const newUser = await User.create(userData);
-  //   create a student
-  if (Object.keys(newUser).length) {
-    payload.id = newUser.id;
-    payload.user = newUser._id; //reference id
-    const newStudent = await Student.create(payload);
+  try {
+    session.startTransaction();
+    userData.id = await generateStudentId(
+      admissionSemester as TAcademicSemester
+    );
+    //   create a user with transaction -1
+
+    const newUser = await User.create([userData], { session });
+    //   create a student
+    if (!newUser.length) {
+      throw new Error("faild to create new user");
+    }
+
+    payload.id = newUser[0].id;
+    payload.user = newUser[0]._id; //reference id
+
+    //   create a Student with transaction -2
+    const newStudent = await Student.create([payload], { session });
+
+    if (!newStudent.length) {
+      throw new Error("faild to create new student");
+    }
+
+    await session.commitTransaction();
+    await session.endSession();
     return newStudent;
-  }
 
-  return newUser;
+    // return newUser;
+  } catch (err) {
+    await session.abortTransaction();
+    await session.endSession();
+  }
 };
 export const userService = {
   createStudentIntoDB,
