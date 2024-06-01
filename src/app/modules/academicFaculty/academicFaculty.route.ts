@@ -5,16 +5,19 @@ import { AcademicFacultyController } from "./academicFaculty.controller";
 
 const router = Router();
 router.post(
-  "/create-academic-fucalty",
+  "/create-academic-fucaltise",
   validationRequset(
     academicFacultyValidation.crateAcademicFacultyValidationShema
   ),
   AcademicFacultyController.createAcademicFaculty
 );
 router.get("/", AcademicFacultyController.getAllAcademicFacultise);
-router.get(
+router.get("/:facultyId", AcademicFacultyController.getSingleAcademicFaculty);
+router.patch(
   "/:facultyId",
-  AcademicFacultyController.getSingleAllAcademicFacultise
+  validationRequset(
+    academicFacultyValidation.updateAcademicFacultyValidationShema
+  ),
+  AcademicFacultyController.updateAcademyFaculty
 );
-router.patch("/facultyId", AcademicFacultyController.updateAcademyFaculty);
 export const AcademicFacultyRouter = router;

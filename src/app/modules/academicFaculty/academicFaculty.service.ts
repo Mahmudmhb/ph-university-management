@@ -10,10 +10,12 @@ const getAllAcademicFacultiseFromDB = async () => {
   const result = await AcademicFaculty.find();
   return result;
 };
-const getSingleAllAcademicFacultiseFromDB = async (id: string) => {
-  const result = await AcademicFaculty.findById({ id });
+const getSingleAcademicFacultyFromDB = async (id: string) => {
+  console.log(id);
+  const result = await AcademicFaculty.findById(id);
   return result;
 };
+
 const updateAcademyFacultyIntoDB = async (
   id: string,
   payload: Partial<TAcademicfaculty>
@@ -26,6 +28,6 @@ const updateAcademyFacultyIntoDB = async (
 export const academicFacultyService = {
   getAllAcademicFacultiseFromDB,
   updateAcademyFacultyIntoDB,
-  getSingleAllAcademicFacultiseFromDB,
+  getSingleAcademicFacultyFromDB,
   createAcademicFacultyIntoDB,
 };

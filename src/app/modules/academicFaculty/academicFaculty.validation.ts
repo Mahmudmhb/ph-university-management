@@ -1,15 +1,19 @@
 import { z } from "zod";
 const crateAcademicFacultyValidationShema = z.object({
-  name: z.string({
-    required_error: " AcademicFaculty is required",
-    invalid_type_error: "AcademicFaculty must be a string",
+  body: z.object({
+    name: z.string({
+      required_error: " Academic Faculty is required",
+      invalid_type_error: "Academic Faculty must be a string",
+    }),
   }),
 });
 const updateAcademicFacultyValidationShema = z.object({
-  name: z
-    .string({
-      required_error: "AcademicFaculty is required",
-      invalid_type_error: "AcademicFaculty must be a string",
+  body: z
+    .object({
+      name: z.string({
+        required_error: " Academic Faculty is required",
+        invalid_type_error: "Academic Faculty must be a string",
+      }),
     })
     .optional(),
 });
