@@ -61,6 +61,71 @@ const createStudentValidationSchema = z.object({
     }),
   }),
 });
+const updateStudentValidationSchema = z.object({
+  body: z
+    .object({
+      // id: z.string().min(1, "Student ID is required").optional(),
+      // password: z
+      //   .string()
+      //   .max(20, { message: "Password needs to be 20 characters or less" })
+      //   .optional(),
+      student: z
+        .object({
+          name: userNameValidationSchema.optional(),
+          gender: z
+            .enum(["male", "female", "others"], {
+              errorMap: () => ({ message: "'{VALUE}' is not a valid gender" }),
+            })
+            .optional(),
+          dateOfBirth: z.string().optional(),
+          email: z.string().email("Invalid email address").optional(),
+          contactNo: z.string().min(1, "Contact number is required").optional(),
+          emergencyContactNo: z
+            .string()
+            .min(1, "Emergency contact number is required")
+            .optional(),
+          bloodGroup: z
+            .enum(
+              [
+                "A",
+                "B",
+                "AB",
+                "O",
+                "A+",
+                "B+",
+                "AB+",
+                "O+",
+                "A-",
+                "B-",
+                "AB-",
+                "O-",
+              ],
+              {
+                errorMap: () => ({
+                  message: "'{VALUE}' is not a valid blood group",
+                }),
+              }
+            )
+            .optional(),
+          presentAddress: z
+            .string()
+            .min(1, "Present address is required")
+            .optional(),
+          permanentAddress: z.string().optional(),
+          guardian: guardianValisatonSchema.optional(),
+          localGuardian: localGuardianValidationSchema.optional(),
+          profileImg: z.string().optional(),
+          admissionSemester: z.string().optional(),
+          academicDepartment: z.string().optional(),
+          // isActive: z.enum(["active", "blocked"]).default("active").optional(),
+          // isDeleted: z.boolean().optional(),
+        })
+        .optional(),
+    })
+    .optional(),
+});
+
 export const studentValidations = {
   createStudentValidationSchema,
+  updateStudentValidationSchema,
 };

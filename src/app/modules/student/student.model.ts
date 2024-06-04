@@ -168,6 +168,15 @@ studentSchema.pre("findOne", function (next) {
   next();
 });
 
+// studentSchema.pre("findOneAndUpdate", async function (next) {
+//   const query = this.getQuery();
+//   // console.log("cleck the delete button", query);
+//   const isStudentExsits = await Student.findOne({ query });
+//   if (!isStudentExsits) {
+//     throw new Error("student is  not exsits in the list");
+//   }
+//   next();
+// });
 studentSchema.pre("aggregate", function () {
   this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
 });
