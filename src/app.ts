@@ -10,7 +10,12 @@ import router from "./app/route";
 app.use(express.json());
 app.use(cors());
 app.use("/api/v1/", router);
-app.use(NotFound);
-
+const test = async (req: Request, res: Response) => {
+  Promise.reject();
+  const a = 10;
+  res.send(a);
+};
+app.get("/", test);
 app.use(gobalErrorHandler);
+app.use(NotFound);
 export default app;

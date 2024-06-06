@@ -6,6 +6,7 @@ import handleZodError from "../error/handleZodError";
 import handleValidationError from "../error/handleValidationError";
 import handleCastError from "../error/handleCastError";
 import handleDuplicateError from "../error/handleDuplicateError";
+import AppError from "../error/AppError";
 
 const gobalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   let statusCode = 500;
@@ -38,6 +39,13 @@ const gobalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
     statusCode = simplefeidError.statusCode;
     message = simplefeidError?.message;
     errorSource = simplefeidError.errorSource;
+  } else if (err instanceof AppError) {
+    statusCode = err?.statusCode;
+    message = err?.message;
+    errorSource = [{ path: "", message: err?.message }];
+  } else if (err instanceof Error) {
+    message = err?.message;
+    errorSource = [{ path: "", message: err?.message }];
   }
 
   return res.status(statusCode).json({
