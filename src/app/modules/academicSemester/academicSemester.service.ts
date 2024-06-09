@@ -14,7 +14,7 @@ const getAllAcademicSemesterFromDB = async () => {
   return result;
 };
 const getSingleAcademicSemeterFromDB = async (academicSemesterId: string) => {
-  const result = await AcademicSemester.findOne({ _id: academicSemesterId });
+  const result = await AcademicSemester.findById({ _id: academicSemesterId });
   return result;
 };
 
@@ -29,7 +29,7 @@ const updateAcademicSemesterIntoDB = async (
   ) {
     throw new Error("invalid semester code");
   }
-  const result = await AcademicSemester.findOneAndUpdate({ _id: id }, payload, {
+  const result = await AcademicSemester.findByIdAndUpdate(id, payload, {
     new: true,
   });
   console.log("service section", result);

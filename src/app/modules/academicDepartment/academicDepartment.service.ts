@@ -22,13 +22,9 @@ const updateAcademyDepartmentIntoDB = async (
   id: string,
   payload: Partial<TAcademicDepartment>
 ) => {
-  const result = await AcademicDepartment.findOneAndUpdate(
-    { _id: id },
-    payload,
-    {
-      new: true,
-    }
-  ).populate("academicFaculty");
+  const result = await AcademicDepartment.findByIdAndUpdate(id, payload, {
+    new: true,
+  }).populate("academicFaculty");
   return result;
 };
 export const AcademicDepartmentService = {
